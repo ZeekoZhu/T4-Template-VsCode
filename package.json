@@ -1,0 +1,26 @@
+{
+    "name": "t4-template",
+    "displayName": "T4-Template",
+    "description": "",
+    "version": "0.0.1",
+    "publisher": "zeeko",
+    "engines": {
+        "vscode": "^1.16.0"
+    },
+    "categories": [
+        "Languages"
+    ],
+    "contributes": {
+        "languages": [{
+            "id": "t4",
+            "aliases": ["T4 Template", "t4"],
+            "extensions": [".tt",".t4"],
+            "configuration": "./language-configuration.json"
+        }],
+        "grammars": [{
+            "language": "t4",
+            "scopeName": "",
+            "path": "./syntaxes/t4.tmLanguage.json"
+        }]
+    }
+}

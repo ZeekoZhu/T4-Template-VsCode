@@ -3,29 +3,106 @@
     "name": "T4 Template",
     "patterns": [
         {
-            "include": "#keywords"
+            "include": "#directiveBlock"
         },
         {
-            "include": "#strings"
+            "include": "#block"
         }
     ],
     "repository": {
-        "keywords": {
+        "block": {
             "patterns": [
                 {
-                    "name": "keyword.control.t4",
-                    "match": "\\b(if|while|for|return)\\b"
+                    "begin": "(<#[=+]?(?!@))",
+                    "end": "(#>)",
+                    "beginCaptures": {
+                        "1": {
+                            "name": "markup.bold"
+                        }
+                    },
+                    "endCaptures": {
+                        "1": {
+                            "name": "markup.bold"
+                        }
+                    },
+                    "contentName": "source.cs",
+                    "name": "block",
+                    "patterns": [
+                        {
+                            "include": "source.cs"
+                        }
+                    ]
                 }
             ]
         },
-        "strings": {
-            "name": "string.quoted.double.t4",
-            "begin": "\"",
-            "end": "\"",
+        "directiveBlock": {
             "patterns": [
                 {
-                    "name": "constant.character.escape.t4",
-                    "match": "\\\\."
+                    "begin": "(<#@)",
+                    "end": "(#>)",
+                    "name": "markup.block.directive",
+                    "captures": {
+                        "1": {
+                            "name": "markup.bold"
+                        },
+                        "2": {
+                            "name": "markup.bold"
+                        }
+                    },
+                    "patterns": [
+                        {
+                            "include": "#directive"
+                        }
+                    ]
+                }
+            ]
+        },
+        "directive": {
+            "patterns": [
+                {
+                    "match": "(\\s+\\w+\\s+)",
+                    "name": "keyword.directive.name.t4"
+                },
+                {
+                    "include": "#directiveProp"
+                }
+            ]
+        },
+        "directiveProp": {
+            "patterns": [
+                {
+                    "match": "(\\s*(\\w+)\\s?=\\s?(\".*?(?<!\\\\)\")\\s*)",
+                    "captures": {
+                        "2": {
+                            "name": "keyword.direcrive.key.t4"
+                        },
+                        "3": {
+                            "name": "string.directive.value.t4"
+                        }
+                    }
+                }
+            ]
+        },
+        "options": {
+            "patterns": [
+                {
+                    "match": "\\b(\\w+)\\b",
+                    "name": "keyword.directive.name.t4"
+                },
+                {
+                    "name": "keyword.directive.key.t4",
+                    "match": "\\b(namespace|extension|encoding)"
+                },
+                {
+                    "name": "string.quoted.double.t4",
+                    "begin": "\"",
+                    "end": "\"",
+                    "patterns": [
+                        {
+                            "name": "constant.character.escape.t4",
+                            "match": "\\\\."
+                        }
+                    ]
                 }
             ]
         }
